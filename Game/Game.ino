@@ -33,6 +33,7 @@ void setup() {
  
   pinMode(13, INPUT);
   pinMode(12, INPUT);
+  pinMode(9, INPUT);
   pixels.begin(); // // Initialize the NeoPixel library.
   Serial.begin(9600); //Kobler opp monitoren
 }
@@ -97,7 +98,7 @@ void HastighetsBytter() //Brytterene for hastighet
 void fargeBytter() //Bryteren for fargebytting
 {
   // read the pushbutton input pin
-  buttonState3 = digitalRead(2);
+  buttonState3 = digitalRead(9);
   // compare the buttonState to its previous state
   if (buttonState3 != lastButtonState3) {
     // if the state has changed, increment the counter
@@ -126,18 +127,7 @@ void fargeBytter() //Bryteren for fargebytting
 /*Her er koden som setter fargen. Denne velger mellom to faktorer
 enten om man skal hente randome nummeret fra 100-255, eller 0-100.
 Denne er også styr av en odetall/partall funksjon.*/
-void setColor(){
-  
-  if (buttonPushCounter3 % 2 == 0) { //oddetall
-      redColor   = random(100, 255);
-  	  greenColor = random(0,100);
-      blueColor  = random(100, 255);
-  } else { //else blir når det er partall
-      redColor   = random(0, 100);
-  	  greenColor = random(100,255);
-      blueColor  = random(0, 100);
-  }
-}
+
 
 
 /*Koden under endrer delayvariabel.DEnne brukes i skrulyson og
@@ -151,12 +141,10 @@ void setSpeed() {
   }
 }
 
-/*Under er dimmerene som endrer analogverdien med 35 hundredeller 
-ettersom hvor høy den analogValue til lyssesnsoren er*/
-
 
 /*Under er påknappen. denne henter informasjon fra buttonPushCounter.
 Avhengig om denne er på et oddetall eller partall*/
+
 void skrulysOn()
 {
     if (buttonPushCounter % 2){ //Odetall
@@ -180,12 +168,15 @@ void skrulysOn()
 }
 
 void loop() {
-  setColor();
+  redColor=255;
+  blueColor= 255;
+  greenColor = 255;
+  skrulysOn();
   trykksenser(); 
   HastighetsBytter();
   fargeBytter();
   setSpeed();
-  skrulysOn();
+  
 }
   
 
